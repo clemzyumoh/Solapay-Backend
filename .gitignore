@@ -1,0 +1,24 @@
+
+# Node modules
+node_modules/
+
+# TypeScript build output
+dist/
+*.tsbuildinfo
+
+# Environment variables
+.env
+
+# macOS system files
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Render deployment (optional)
+render.yaml
