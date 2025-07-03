@@ -41,7 +41,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       // callbackURL: "http://localhost:5000/auth/google/callback",
-      callbackURL: "https://solapay-backend.onrender.com/auth/discord/callback",
+      callbackURL: "https://solapay-backend.onrender.com/auth/google/callback",
     },
     async (
       accessToken: string,
@@ -90,7 +90,7 @@ passport.use(
       clientID: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
       //callbackURL: "http://localhost:5000/auth/discord/callback",
-      callbackURL: "https://solapay-backend.onrender.com/auth/google/callback",
+      callbackURL: "https://solapay-backend.onrender.com/auth/discord/callback",
 
       //callbackURL: "/auth/discord/callback", Use relative (/auth/google/callback) only in production when behind a proxy like Nginx or Vercel.
       scope: ["identify", "email"],
