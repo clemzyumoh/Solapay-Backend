@@ -15,10 +15,9 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    
     session: false,
-   // successRedirect: "http://localhost:3000/", // Or your frontend
-    failureRedirect: "http://localhost:3000/Login",
+    // successRedirect: "http://localhost:3000/", // Or your frontend
+    failureRedirect: "https://solapay-frontend.vercel.app/Login",
   }),
   (req, res) => {
     const user = req.user as any;
@@ -43,12 +42,10 @@ router.get(
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
-
-    
     // Send user details to frontend
     res.redirect(
       `http://localhost:3000/`
-        //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
+      //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
     );
 
     //res.json({ token, message: "Google login successful" });
@@ -63,12 +60,10 @@ router.get(
   passport.authenticate("discord", {
     session: false,
     //successRedirect: "http://localhost:3000/", // Or your frontend
-    failureRedirect: "http://localhost:3000/Login",
+    failureRedirect: "https://solapay-frontend.vercel.app/Login",
   }),
   (req, res) => {
     const user = req.user as any;
-
-
 
     const payload = {
       _id: user._id,
@@ -89,7 +84,7 @@ router.get(
     // Send user details to frontend
     res.redirect(
       `http://localhost:3000/`
-        //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
+      //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
     );
 
     //Redirect URI: http://localhost:5000/auth/discord/callback
