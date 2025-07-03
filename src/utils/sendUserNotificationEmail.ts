@@ -23,7 +23,7 @@ const sendUserNotificationEmail = async ({
   message: string;
 }) => {
     try {
-    const payUrl = "http://localhost:3000/";
+    const payUrl = "https://solapay-frontend.vercel.app";
       
     const html = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto;">

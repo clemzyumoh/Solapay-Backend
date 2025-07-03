@@ -27,7 +27,7 @@ const sendInvoiceEmail = async ({
     //const payUrl = encodeURI(invoice.solanaUrl);
     //const payUrl = invoice.solanaUrl; // don't encode
    // const payUrl = `http://localhost:3000/Public-Pay?invoiceId=${invoice.invoiceId}&reference=${invoice.reference}`;
-    const payUrl = `http://localhost:3000/Public-Pay?invoiceId=${invoice.invoiceId}`
+    const payUrl = `https://solapay-frontend.vercel.app/Public-Pay?invoiceId=${invoice.invoiceId}`;
 
 
     const html = `
