@@ -40,7 +40,8 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: "http://localhost:5000/auth/google/callback",
+      // callbackURL: "http://localhost:5000/auth/google/callback",
+      callbackURL: "https://solapay-backend.onrender.com/auth/discord/callback",
     },
     async (
       accessToken: string,
@@ -59,24 +60,20 @@ passport.use(
         }
 
         if (existingUser) return done(null, existingUser);
-        
 
+        // If user does not exist, create new user in DB
+        const newUser = new User({
+          googleId: profile.id, // Save Google profile ID to identify OAuth users
+          provider: "google", // Mark provider as "google"
+          name: profile.displayName, // User's display name from Google
+          email: profile.emails?.[0]?.value, // User's email from Google (optional chaining for safety)
+          imageUrl: profile.photos?.[0]?.value, // User's profile image from Google
+          // Note: no password needed for OAuth users
+        });
 
-        
-          // If user does not exist, create new user in DB
-          const newUser = new User({
-            googleId: profile.id, // Save Google profile ID to identify OAuth users
-            provider: "google", // Mark provider as "google"
-            name: profile.displayName, // User's display name from Google
-            email: profile.emails?.[0]?.value, // User's email from Google (optional chaining for safety)
-            imageUrl: profile.photos?.[0]?.value, // User's profile image from Google
-            // Note: no password needed for OAuth users
-          });
-
-          // Save new user to database
-          await newUser.save();
-          return done(null, newUser);
-        
+        // Save new user to database
+        await newUser.save();
+        return done(null, newUser);
 
         //return done(null, newUser);
         // Pass user object to Passport's req.user
@@ -92,7 +89,9 @@ passport.use(
     {
       clientID: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-      callbackURL: "http://localhost:5000/auth/discord/callback",
+      //callbackURL: "http://localhost:5000/auth/discord/callback",
+      callbackURL: "https://solapay-backend.onrender.com/auth/google/callback",
+
       //callbackURL: "/auth/discord/callback", Use relative (/auth/google/callback) only in production when behind a proxy like Nginx or Vercel.
       scope: ["identify", "email"],
     },
@@ -103,7 +102,6 @@ passport.use(
       done: VerifyCallback
     ) => {
       try {
-        
         let existingUser = await User.findOne({ discordId: profile.id });
 
         if (!existingUser) {
@@ -111,25 +109,22 @@ passport.use(
         }
 
         if (existingUser) return done(null, existingUser);
-        
 
-        
-          // If user does not exist, create new user in DB
-          const newUser = new User({
-            discordId: profile.id,
-            provider: "discord", // Mark provider as "google"
-            name: profile.username, // Discord uses `username`, not `displayName`
-            email: profile.email,
-            imageUrl: profile.avatar
-              ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-              : undefined,
-            // Note: no password needed for OAuth users
-          });
+        // If user does not exist, create new user in DB
+        const newUser = new User({
+          discordId: profile.id,
+          provider: "discord", // Mark provider as "google"
+          name: profile.username, // Discord uses `username`, not `displayName`
+          email: profile.email,
+          imageUrl: profile.avatar
+            ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+            : undefined,
+          // Note: no password needed for OAuth users
+        });
 
-          // Save new user to database
-          await newUser.save();
-          return done(null, newUser);
-        
+        // Save new user to database
+        await newUser.save();
+        return done(null, newUser);
 
         //       const newUser = new User({
         //         name: profile.username, // Discord uses `username`, not `displayName`
