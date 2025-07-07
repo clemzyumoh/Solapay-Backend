@@ -1,7 +1,7 @@
 
 ---
 
-### ✅ `solapay-backend/README.md`
+###  `solapay-backend/README.md`
 
 ```markdown
 # SolaPay Backend
@@ -33,3 +33,4 @@ This is the backend server for the SolaPay application, providing APIs for user 
 ## Getting Started
 
 1. GitHub Link: 
+https://github.com/clemzyumoh/Solapay-Backend
