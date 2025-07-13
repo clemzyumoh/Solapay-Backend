@@ -40,6 +40,7 @@ router.get(
       secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: "/",
     });
 
     // Send user details to frontend
@@ -80,6 +81,7 @@ router.get(
       secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: "/",
     });
     // Send user details to frontend
     res.redirect(

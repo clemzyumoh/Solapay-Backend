@@ -65,6 +65,7 @@ export const Register = async (req: Request, res: Response) => {
       secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: "/",
     });
 
       
@@ -146,6 +147,7 @@ export const Login = async (req: Request, res: Response) => {
       secure: isProduction,
       sameSite: isProduction ? "none" : "lax",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: "/",
     });
     
     // If everything is okay, return success
