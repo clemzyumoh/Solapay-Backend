@@ -45,7 +45,8 @@ router.get(
 
     // Send user details to frontend
     res.redirect(
-      `https://solapay-frontend.vercel.app`
+      `https://solapay-frontend.vercel.app/dashboard`
+
       //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
     );
 
@@ -85,7 +86,7 @@ router.get(
     });
     // Send user details to frontend
     res.redirect(
-      `https://solapay-frontend.vercel.app`
+      `https://solapay-frontend.vercel.app/dashboard`
       //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
     );
 
