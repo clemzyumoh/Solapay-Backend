@@ -83,14 +83,19 @@ passport.use(
     }
   )
 );
+
+const isProduction = process.env.IS_PROD === "true";
  
 passport.use(
   new DiscordStrategy(
     {
       clientID: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+      callbackURL: isProduction
+  ? "https://solapay-backend.onrender.com/auth/discord/callback"
+  : "http://localhost:5000/auth/discord/callback",
       //callbackURL: "http://localhost:5000/auth/discord/callback",
-      callbackURL: "https://solapay-backend.onrender.com/auth/discord/callback",
+      //callbackURL: "https://solapay-backend.onrender.com/auth/discord/callback",
 
       //callbackURL: "/auth/discord/callback", Use relative (/auth/google/callback) only in production when behind a proxy like Nginx or Vercel.
       scope: ["identify", "email"],
@@ -101,7 +106,56 @@ passport.use(
       profile: DiscordProfile,
       done: VerifyCallback
     ) => {
+      // try {
+      //   let existingUser = await User.findOne({ discordId: profile.id });
+
+      //   if (!existingUser) {
+      //     existingUser = await User.findOne({ email: profile.email });
+      //   }
+
+      //   if (existingUser) return done(null, existingUser);
+
+      //   // If user does not exist, create new user in DB
+      //   const newUser = new User({
+      //     discordId: profile.id,
+      //     provider: "discord", // Mark provider as "google"
+      //     name: profile.username, // Discord uses `username`, not `displayName`
+      //     email: profile.email,
+      //     imageUrl: profile.avatar
+      //       ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+      //       : undefined,
+      //     // Note: no password needed for OAuth users
+      //   });
+
+      //   // Save new user to database
+      //   await newUser.save();
+      //   return done(null, newUser);
+
+      //   //       const newUser = new User({
+      //   //         name: profile.username, // Discord uses `username`, not `displayName`
+      //   //         email: profile.email,
+      //   //         discordId: profile.id,
+      //   //         image: profile.avatar
+      //   //           ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+      //   //           : undefined,
+      //   //       });
+
+      //   // await newUser.save();
+      //   // return done(null, newUser);
+      // } catch (err) {
+      //   return done(err as Error, undefined);
+      //   console.error("OAuth Error:", err);
+      // }
       try {
+        console.log("Discord Profile:", profile);
+
+        if (!profile.email) {
+          console.error(
+            "No email in Discord profile. Likely missing email scope."
+          );
+          return done(new Error("Email not returned from Discord"), undefined);
+        }
+
         let existingUser = await User.findOne({ discordId: profile.id });
 
         if (!existingUser) {
@@ -110,36 +164,23 @@ passport.use(
 
         if (existingUser) return done(null, existingUser);
 
-        // If user does not exist, create new user in DB
         const newUser = new User({
           discordId: profile.id,
-          provider: "discord", // Mark provider as "google"
-          name: profile.username, // Discord uses `username`, not `displayName`
+          provider: "discord",
+          name: profile.username,
           email: profile.email,
           imageUrl: profile.avatar
             ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
             : undefined,
-          // Note: no password needed for OAuth users
         });
 
-        // Save new user to database
         await newUser.save();
         return done(null, newUser);
-
-        //       const newUser = new User({
-        //         name: profile.username, // Discord uses `username`, not `displayName`
-        //         email: profile.email,
-        //         discordId: profile.id,
-        //         image: profile.avatar
-        //           ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
-        //           : undefined,
-        //       });
-
-        // await newUser.save();
-        // return done(null, newUser);
       } catch (err) {
+        console.error("OAuth Discord Error:", err);
         return done(err as Error, undefined);
       }
+
     }
   )
 );
