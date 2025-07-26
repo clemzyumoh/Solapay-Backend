@@ -16,8 +16,9 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    // successRedirect: "http://localhost:3000/", // Or your frontend
-    failureRedirect: "https://solapay-frontend.vercel.app/Login",
+    // successRedirect: "http://localhost:3000/Login", // Or your frontend
+   failureRedirect: "https://solapay-frontend.vercel.app/Login",
+    //failureRedirect: "http://localhost:3000/Login",
   }),
   (req, res) => {
     const user = req.user as any;
@@ -31,7 +32,7 @@ router.get(
 
     // Generate JWT
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: "5m",
+      expiresIn: "1d",
     });
     const isProduction = process.env.NODE_ENV === "production";
 
@@ -45,9 +46,8 @@ router.get(
 
     // Send user details to frontend
     res.redirect(
-      `https://solapay-frontend.vercel.app/dashboard`
-
-      //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
+     `https://solapay-frontend.vercel.app/dashboard`
+     //   `http://localhost:3000/dashboard`
     );
 
     //res.json({ token, message: "Google login successful" });
@@ -73,7 +73,7 @@ router.get(
       name: user.name,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-      expiresIn: "5m",
+      expiresIn: "1d",
     });
     const isProduction = process.env.NODE_ENV === "production";
 
