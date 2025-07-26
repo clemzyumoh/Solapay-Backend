@@ -58,7 +58,8 @@ export const Register = async (req: Request, res: Response) => {
     //   sameSite: "none", // Set to strict in production (HTTPS)
     //   maxAge: 2 * 24 * 60 * 60 * 1000, // 1min
     // });
-    const isProduction = process.env.NODE_ENV === "production";
+    //const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env.IS_PROD === "true" || false;
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -140,7 +141,8 @@ export const Login = async (req: Request, res: Response) => {
     //   sameSite: "none", // Set to strict in production (HTTPS)
     //   maxAge: 2 * 24 * 60 * 60 * 1000,
     // });
-    const isProduction = process.env.NODE_ENV === "production";
+   // const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env.IS_PROD === "true" || false;
 
     res.cookie("token", token, {
       httpOnly: true,

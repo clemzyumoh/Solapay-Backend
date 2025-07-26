@@ -34,7 +34,9 @@ router.get(
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
       expiresIn: "1d",
     });
-    const isProduction = process.env.NODE_ENV === "production";
+   // const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env.IS_PROD === "true" || false;
+
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -75,7 +77,8 @@ router.get(
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
       expiresIn: "1d",
     });
-    const isProduction = process.env.NODE_ENV === "production";
+    //const isProduction = process.env.NODE_ENV === "production";
+    const isProduction = process.env.IS_PROD === "true" || false;
 
     res.cookie("token", token, {
       httpOnly: true,
