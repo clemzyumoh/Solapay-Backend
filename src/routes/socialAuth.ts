@@ -48,8 +48,8 @@ router.get(
 
     // Send user details to frontend
     res.redirect(
-      `https://solapay-frontend.vercel.app/auth-redirect`
-      //   `http://localhost:3000/dashboard`
+      //`https://solapay-frontend.vercel.app/auth-redirect`
+        `http://localhost:3000/auth-redirect`
     );
 
     //res.json({ token, message: "Google login successful" });
@@ -89,7 +89,10 @@ router.get(
     });
     // Send user details to frontend
     res.redirect(
-      `https://solapay-frontend.vercel.app/auth-redirect`
+      //   `https://solapay-frontend.vercel.app/auth-redirect`
+     // `http://localhost3000/auth-redirect`
+        `http://localhost:3000/auth-redirect`
+
       //`http://localhost:3000/auth-success?token=${token}&name=${user.name}&email=${user.email}&image=${user.image}`
     );
 
