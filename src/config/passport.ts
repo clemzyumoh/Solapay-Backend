@@ -51,7 +51,7 @@ passport.use(
     ) => {
       try {
         // Check if user already exists
-        let existingUser = await User.findOne({ discordId: profile.id });
+        let existingUser = await User.findOne({ googleId: profile.id }); // ✅ not discordId
 
         if (!existingUser) {
           existingUser = await User.findOne({
